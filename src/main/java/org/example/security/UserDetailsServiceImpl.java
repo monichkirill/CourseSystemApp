@@ -3,24 +3,20 @@ package org.example.security;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.example.service.UserService;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        User user = userService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles(user.getRole().name()) // ROLE_USER, ROLE_ADMIN
-                .build();
+        return (UserDetails) new UserDetailsImpl(user);
     }
 }
