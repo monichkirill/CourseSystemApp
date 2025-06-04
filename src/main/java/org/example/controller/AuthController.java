@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.dto.LoginRequestDto;
 import org.example.dto.LoginResponseDto;
 import org.example.dto.UserRegisterDto;
@@ -14,10 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -36,6 +32,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid UserRegisterDto dto) {
+        if (dto.getRole() == null) {
+            dto.setRole(User.Role.STUDENT);
+        }
         User user = Mapper.toUser(dto);
         userService.registerUser(user);
         return ResponseEntity.ok("User registered successfully");
