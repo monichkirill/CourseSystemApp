@@ -47,8 +47,6 @@ public class User {
         this.enrollments = enrollments;
     }
 
-    // Геттеры и сеттеры
-
     public Long getId() {
         return id;
     }
@@ -105,7 +103,6 @@ public class User {
         this.enrollments = enrollments;
     }
 
-    // Optional: можно реализовать builder вручную, если нужно
     public static class Builder {
         private Long id;
         private String username;

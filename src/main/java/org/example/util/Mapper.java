@@ -30,13 +30,15 @@ public class Mapper {
     }
 
     public static CourseDto toCourseDto(Course course) {
-        CourseDto dto = new CourseDto();
-        dto.setId(course.getId());
-        dto.setTitle(course.getTitle());
-        dto.setDescription(course.getDescription());
-        dto.setTeacherUsername(course.getTeacher() != null ? course.getTeacher().getUsername() : null);
-        dto.setCreatedAt(course.getCreatedAt() != null ? course.getCreatedAt().format(formatter) : null);
-        return dto;
+        String createdAtStr = course.getCreatedAt() != null ? course.getCreatedAt().toString() : null;
+        String teacherUsername = course.getTeacher() != null ? course.getTeacher().getUsername() : null;
+        return new CourseDto(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                teacherUsername,
+                createdAtStr
+        );
     }
 
     public static EnrollmentDto toEnrollmentDto(Enrollment enrollment) {

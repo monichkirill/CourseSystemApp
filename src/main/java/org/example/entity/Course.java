@@ -37,7 +37,6 @@ public class Course {
         this.enrollments = enrollments;
     }
 
-    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }

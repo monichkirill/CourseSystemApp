@@ -10,6 +10,7 @@ import org.example.service.CourseService;
 import org.example.service.UserService;
 import org.example.util.Mapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,33 +22,44 @@ import java.util.stream.Collectors;
 public class CourseController {
 
     private final CourseService courseService;
-    private final UserService userService;
 
-    public CourseController(CourseService courseService, UserService userService) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
-        this.userService = userService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PostMapping
-    public ResponseEntity<CourseDto> create(@RequestBody @Valid CourseCreateDto dto,
+    public ResponseEntity<CourseDto> create(@Valid @RequestBody CourseCreateDto dto,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User teacher = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Course course = courseService.createCourse(Mapper.toCourse(dto), teacher);
-        return ResponseEntity.ok(Mapper.toCourseDto(course));
+        Course course = Mapper.toCourse(dto);
+        User teacher = userDetails.getUser();
+        Course created = courseService.createCourse(course, teacher);
+        return ResponseEntity.ok(Mapper.toCourseDto(created));
     }
 
     @GetMapping
     public ResponseEntity<List<CourseDto>> getAll() {
-        List<CourseDto> list = courseService.getAllCourses().stream()
+        List<CourseDto> courses = courseService.getAllCourses().stream()
                 .map(Mapper::toCourseDto)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(courses);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CourseDto> getById(@PathVariable Long id) {
-        Course course = courseService.getCourseById(id);
-        return ResponseEntity.ok(Mapper.toCourseDto(course));
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDto> update(@PathVariable Long id, @Valid @RequestBody CourseCreateDto dto) {
+        Course existingCourse = courseService.getCourseById(id);
+        existingCourse.setTitle(dto.getTitle());
+        existingCourse.setDescription(dto.getDescription());
+        Course updated = courseService.createCourse(existingCourse, existingCourse.getTeacher()); // или вызвать updateCourse
+        return ResponseEntity.ok(Mapper.toCourseDto(updated));
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        courseService.deleteCourse(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
