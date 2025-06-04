@@ -14,36 +14,36 @@ public class Mapper {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static User toUser(UserRegisterDto dto) {
-        return User.builder()
-                .username(dto.getUsername())
-                .email(dto.getEmail())
-                .password(dto.getPassword()) // не забудь шифровать в сервисе
-                .role(dto.getRole())
-                .build();
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword()); // не забудь шифровать в сервисе
+        user.setRole(dto.getRole());
+        return user;
     }
 
     public static Course toCourse(CourseCreateDto dto) {
-        return Course.builder()
-                .title(dto.getTitle())
-                .description(dto.getDescription())
-                .build();
+        Course course = new Course();
+        course.setTitle(dto.getTitle());
+        course.setDescription(dto.getDescription());
+        return course;
     }
 
     public static CourseDto toCourseDto(Course course) {
-        return CourseDto.builder()
-                .id(course.getId())
-                .title(course.getTitle())
-                .description(course.getDescription())
-                .teacherUsername(course.getTeacher().getUsername())
-                .createdAt(course.getCreatedAt().format(formatter))
-                .build();
+        CourseDto dto = new CourseDto();
+        dto.setId(course.getId());
+        dto.setTitle(course.getTitle());
+        dto.setDescription(course.getDescription());
+        dto.setTeacherUsername(course.getTeacher() != null ? course.getTeacher().getUsername() : null);
+        dto.setCreatedAt(course.getCreatedAt() != null ? course.getCreatedAt().format(formatter) : null);
+        return dto;
     }
 
     public static EnrollmentDto toEnrollmentDto(Enrollment enrollment) {
-        return EnrollmentDto.builder()
-                .courseId(enrollment.getCourse().getId())
-                .courseTitle(enrollment.getCourse().getTitle())
-                .enrolledAt(enrollment.getEnrolledAt().format(formatter))
-                .build();
+        EnrollmentDto dto = new EnrollmentDto();
+        dto.setCourseId(enrollment.getCourse() != null ? enrollment.getCourse().getId() : null);
+        dto.setCourseTitle(enrollment.getCourse() != null ? enrollment.getCourse().getTitle() : null);
+        dto.setEnrolledAt(enrollment.getEnrolledAt() != null ? enrollment.getEnrolledAt().format(formatter) : null);
+        return dto;
     }
 }

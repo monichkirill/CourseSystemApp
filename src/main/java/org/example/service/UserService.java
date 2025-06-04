@@ -1,6 +1,5 @@
 package org.example.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,10 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public User registerUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -36,7 +39,7 @@ public class UserService {
     }
 
     public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
-
 }

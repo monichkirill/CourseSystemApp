@@ -21,11 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+
+    public AuthController(AuthenticationManager authenticationManager,
+                          UserService userService,
+                          JwtTokenProvider jwtTokenProvider) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid UserRegisterDto dto) {

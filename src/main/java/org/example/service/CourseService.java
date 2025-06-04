@@ -1,6 +1,5 @@
 package org.example.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.entity.Course;
 import org.example.entity.User;
 import org.example.repository.CourseRepository;
@@ -10,9 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CourseService {
+
     private final CourseRepository courseRepository;
+
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
     public Course createCourse(Course course, User teacher) {
         course.setTeacher(teacher);

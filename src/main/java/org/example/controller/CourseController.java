@@ -1,13 +1,11 @@
 package org.example.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.dto.CourseCreateDto;
 import org.example.dto.CourseDto;
 import org.example.entity.Course;
 import org.example.entity.User;
 import org.example.security.UserDetailsImpl;
-import org.example.security.UserDetailsServiceImpl;
 import org.example.service.CourseService;
 import org.example.service.UserService;
 import org.example.util.Mapper;
@@ -20,10 +18,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/courses")
-@RequiredArgsConstructor
 public class CourseController {
+
     private final CourseService courseService;
     private final UserService userService;
+
+    public CourseController(CourseService courseService, UserService userService) {
+        this.courseService = courseService;
+        this.userService = userService;
+    }
 
     @PostMapping
     public ResponseEntity<CourseDto> create(@RequestBody @Valid CourseCreateDto dto,
