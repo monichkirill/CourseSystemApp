@@ -1,9 +1,6 @@
 package org.example.util;
 
-import org.example.dto.CourseCreateDto;
-import org.example.dto.CourseDto;
-import org.example.dto.EnrollmentDto;
-import org.example.dto.UserRegisterDto;
+import org.example.dto.*;
 import org.example.entity.Course;
 import org.example.entity.Enrollment;
 import org.example.entity.User;
@@ -47,5 +44,9 @@ public class Mapper {
         dto.setCourseTitle(enrollment.getCourse() != null ? enrollment.getCourse().getTitle() : null);
         dto.setEnrolledAt(enrollment.getEnrolledAt() != null ? enrollment.getEnrolledAt().format(formatter) : null);
         return dto;
+    }
+
+    public static UserDto toUserDto(User user) {
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail());
     }
 }
