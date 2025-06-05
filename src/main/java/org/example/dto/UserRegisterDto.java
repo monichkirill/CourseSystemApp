@@ -18,11 +18,9 @@ public class UserRegisterDto {
 
     private User.Role role;
 
-    // Пустой конструктор
     public UserRegisterDto() {
     }
 
-    // Конструктор со всеми полями
     public UserRegisterDto(String username, String email, String password, User.Role role) {
         this.username = username;
         this.email = email;
@@ -30,7 +28,6 @@ public class UserRegisterDto {
         this.role = role;
     }
 
-    // Геттеры и сеттеры
     public String getUsername() {
         return username;
     }
