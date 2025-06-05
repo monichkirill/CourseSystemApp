@@ -1,4 +1,4 @@
-Course Management System
+# Course Management System
 
 A simple web-based course management system built with Java, Spring Boot, Spring Security, and PostgreSQL. It allows teachers to create courses, students to enroll in them, and both to view course-related data through a secure REST API.
 
