@@ -3,7 +3,6 @@
 ![Java](https://img.shields.io/badge/Java-17-blue.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-green.svg)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)
-![License](https://img.shields.io/badge/license-Educational-lightgrey.svg)
 
 A simple web-based course management system built with Java, Spring Boot, Spring Security, and PostgreSQL. It allows teachers to create courses, students to enroll in them, and both to view course-related data through a secure REST API.
 
