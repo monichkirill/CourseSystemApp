@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register", "/api/auth/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/enrollments/course/**").hasAnyRole("TEACHER", "ADMIN")
-                        .requestMatchers("/api/enrollments/**").hasRole("STUDENT") // Только студенты
+                        .requestMatchers("/api/enrollments/**").hasRole("STUDENT")
                         .requestMatchers(HttpMethod.GET, "/api/courses/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                         .requestMatchers("/api/courses/**").hasAnyRole("TEACHER", "ADMIN")
                         .anyRequest().authenticated()

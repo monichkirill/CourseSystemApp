@@ -7,7 +7,6 @@ import org.example.entity.Course;
 import org.example.entity.User;
 import org.example.security.UserDetailsImpl;
 import org.example.service.CourseService;
-import org.example.service.UserService;
 import org.example.util.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,7 +50,7 @@ public class CourseController {
         Course existingCourse = courseService.getCourseById(id);
         existingCourse.setTitle(dto.getTitle());
         existingCourse.setDescription(dto.getDescription());
-        Course updated = courseService.createCourse(existingCourse, existingCourse.getTeacher()); // или вызвать updateCourse
+        Course updated = courseService.createCourse(existingCourse, existingCourse.getTeacher());
         return ResponseEntity.ok(Mapper.toCourseDto(updated));
     }
 

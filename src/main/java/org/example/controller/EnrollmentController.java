@@ -66,7 +66,6 @@ public class EnrollmentController {
 
         User user = userDetails.getUser();
 
-        // Проверка: если TEACHER, то курс должен ему принадлежать
         if (user.getRole().name().equals("TEACHER") &&
                 !course.getTeacher().getId().equals(user.getId())) {
             return ResponseEntity.status(403).build(); // Доступ запрещён
